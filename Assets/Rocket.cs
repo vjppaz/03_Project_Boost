@@ -13,6 +13,15 @@ public class Rocket : MonoBehaviour
     [SerializeField]
     float ThrustSpeed = 10000;
 
+    [SerializeField]
+    AudioClip mainThrust;
+
+    [SerializeField]
+    AudioClip deathAudio;
+
+    [SerializeField]
+    AudioClip completeAudio;
+
     Rigidbody rigidBody;
     AudioSource audioSource;
 
@@ -29,22 +38,20 @@ public class Rocket : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (state != State.Dying)
+        if (state == State.Alive)
         {
             Thruster();
             Rotation();
-        }
-        else
-        {
-            if (audioSource.isPlaying)
-            {
-                audioSource.Stop();
-            }
         }
     }
 
     void OnCollisionEnter(Collision collision)
     {
+        if (state != State.Alive)
+        {
+            return;
+        }
+
         switch (collision.gameObject.tag)
         {
             case "Mud":
@@ -52,6 +59,7 @@ public class Rocket : MonoBehaviour
                 break;
             case "Finish":
                 state = State.Transending;
+                audioSource.PlayOneShot(completeAudio);
                 Invoke("LoadNextLevel", 1);
                 break;
             case "Friendly":
@@ -59,6 +67,7 @@ public class Rocket : MonoBehaviour
                 break;
             default:
                 state = State.Dying;
+                audioSource.PlayOneShot(deathAudio);
                 Invoke("ResetGame", 1);
                 break;
         }
@@ -80,10 +89,9 @@ public class Rocket : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             rigidBody.AddRelativeForce(Vector3.up * speed);
-
             if (!audioSource.isPlaying)
             {
-                audioSource.Play();
+                audioSource.PlayOneShot(mainThrust);
             }
         }
         else
