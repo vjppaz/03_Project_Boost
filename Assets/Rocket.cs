@@ -16,6 +16,9 @@ public class Rocket : MonoBehaviour
     Rigidbody rigidBody;
     AudioSource audioSource;
 
+    enum State { Alive, Dying, Transending }
+    State state = State.Alive;
+
     // Use this for initialization
     void Start()
     {
@@ -26,8 +29,18 @@ public class Rocket : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Thruster();
-        Rotation();
+        if (state != State.Dying)
+        {
+            Thruster();
+            Rotation();
+        }
+        else
+        {
+            if (audioSource.isPlaying)
+            {
+                audioSource.Stop();
+            }
+        }
     }
 
     void OnCollisionEnter(Collision collision)
@@ -38,15 +51,27 @@ public class Rocket : MonoBehaviour
                 Debug.Log("slows down");
                 break;
             case "Finish":
-                SceneManager.LoadScene(1);
+                state = State.Transending;
+                Invoke("LoadNextLevel", 1);
                 break;
             case "Friendly":
                 Debug.Log("OK");
                 break;
             default:
-                SceneManager.LoadScene(0);
+                state = State.Dying;
+                Invoke("ResetGame", 1);
                 break;
         }
+    }
+
+    private void LoadNextLevel()
+    {
+        SceneManager.LoadScene(1);
+    }
+
+    private void ResetGame()
+    {
+        SceneManager.LoadScene(0);
     }
 
     private void Thruster()
