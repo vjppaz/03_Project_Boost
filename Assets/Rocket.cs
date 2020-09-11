@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Permissions;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Rocket : MonoBehaviour
 {
@@ -37,13 +38,13 @@ public class Rocket : MonoBehaviour
                 Debug.Log("slows down");
                 break;
             case "Finish":
-                Debug.Log("complete");
+                SceneManager.LoadScene(1);
                 break;
             case "Friendly":
                 Debug.Log("OK");
                 break;
             default:
-                Debug.Log("dead");
+                SceneManager.LoadScene(0);
                 break;
         }
     }
