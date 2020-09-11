@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Permissions;
 using UnityEngine;
 
 public class Rocket : MonoBehaviour
@@ -26,6 +27,25 @@ public class Rocket : MonoBehaviour
     {
         Thruster();
         Rotation();
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        switch (collision.gameObject.tag)
+        {
+            case "Mud":
+                Debug.Log("slows down");
+                break;
+            case "Deadly":
+                Debug.Log("dead");
+                break;
+            case "Friendly":
+                Debug.Log("OK");
+                break;
+            default:
+                Debug.Log("dead");
+                break;
+        }
     }
 
     private void Thruster()
