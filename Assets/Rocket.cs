@@ -36,8 +36,8 @@ public class Rocket : MonoBehaviour
             case "Mud":
                 Debug.Log("slows down");
                 break;
-            case "Deadly":
-                Debug.Log("dead");
+            case "Finish":
+                Debug.Log("complete");
                 break;
             case "Friendly":
                 Debug.Log("OK");
