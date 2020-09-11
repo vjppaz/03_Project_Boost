@@ -13,14 +13,13 @@ public class Rocket : MonoBehaviour
     [SerializeField]
     float ThrustSpeed = 10000;
 
-    [SerializeField]
-    AudioClip mainThrust;
+    [SerializeField] AudioClip mainThrust;
+    [SerializeField] AudioClip death;
+    [SerializeField] AudioClip complete;
 
-    [SerializeField]
-    AudioClip deathAudio;
-
-    [SerializeField]
-    AudioClip completeAudio;
+    [SerializeField] ParticleSystem mainThrustParticles;
+    [SerializeField] ParticleSystem deathParticles;
+    [SerializeField] ParticleSystem completeParticles;
 
     Rigidbody rigidBody;
     AudioSource audioSource;
@@ -47,10 +46,7 @@ public class Rocket : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (state != State.Alive)
-        {
-            return;
-        }
+        if (state != State.Alive) return;
 
         switch (collision.gameObject.tag)
         {
@@ -58,19 +54,30 @@ public class Rocket : MonoBehaviour
                 Debug.Log("slows down");
                 break;
             case "Finish":
-                state = State.Transending;
-                audioSource.PlayOneShot(completeAudio);
-                Invoke("LoadNextLevel", 1);
+                StartFinishSequence();
                 break;
             case "Friendly":
-                Debug.Log("OK");
                 break;
             default:
-                state = State.Dying;
-                audioSource.PlayOneShot(deathAudio);
-                Invoke("ResetGame", 1);
+                StartDeathSequence();
                 break;
         }
+    }
+
+    private void StartDeathSequence()
+    {
+        state = State.Dying;
+        audioSource.PlayOneShot(death);
+        deathParticles.Play();
+        Invoke("ResetGame", 1);
+    }
+
+    private void StartFinishSequence()
+    {
+        state = State.Transending;
+        audioSource.PlayOneShot(complete);
+        completeParticles.Play();
+        Invoke("LoadNextLevel", 1);
     }
 
     private void LoadNextLevel()
@@ -89,14 +96,13 @@ public class Rocket : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             rigidBody.AddRelativeForce(Vector3.up * speed);
-            if (!audioSource.isPlaying)
-            {
-                audioSource.PlayOneShot(mainThrust);
-            }
+            if (!audioSource.isPlaying) audioSource.PlayOneShot(mainThrust);
+            mainThrustParticles.Play();
         }
         else
         {
             audioSource.Stop();
+            mainThrustParticles.Stop();
         }
     }
 
