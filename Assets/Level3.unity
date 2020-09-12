@@ -308,6 +308,21 @@ Prefab:
       propertyPath: movementFactor
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114952646073551488, guid: 4688dbee3f66f344c835953797392741,
+        type: 2}
+      propertyPath: period
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114952646073551488, guid: 4688dbee3f66f344c835953797392741,
+        type: 2}
+      propertyPath: movementVector.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114952646073551488, guid: 4688dbee3f66f344c835953797392741,
+        type: 2}
+      propertyPath: movementVector.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4688dbee3f66f344c835953797392741, type: 2}
   m_IsPrefabParent: 0
