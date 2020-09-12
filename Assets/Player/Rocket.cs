@@ -5,6 +5,7 @@ using System.Security.Permissions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[DisallowMultipleComponent]
 public class Rocket : MonoBehaviour
 {
     [SerializeField]

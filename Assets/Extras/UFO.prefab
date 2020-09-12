@@ -1118,6 +1118,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c08f70bba3904f54c9747fb6f889c1e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RotationSpeed: 100
+  ThrustSpeed: 10000
+  mainThrust: {fileID: 0}
+  death: {fileID: 0}
+  complete: {fileID: 0}
+  mainThrustParticles: {fileID: 0}
+  deathParticles: {fileID: 0}
+  completeParticles: {fileID: 0}
 --- !u!135 &135046297358223156
 SphereCollider:
   m_ObjectHideFlags: 1

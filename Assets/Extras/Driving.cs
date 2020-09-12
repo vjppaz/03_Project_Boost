@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[DisallowMultipleComponent]
 public class Driving : MonoBehaviour
 {
     Rigidbody rigidBody;
