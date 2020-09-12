@@ -22,6 +22,10 @@ public class Rocket : MonoBehaviour
     [SerializeField] ParticleSystem deathParticles;
     [SerializeField] ParticleSystem completeParticles;
 
+    [SerializeField] float levelLoadDelay = 2;
+
+    public static int currentLevel = 1;
+
     Rigidbody rigidBody;
     AudioSource audioSource;
 
@@ -70,7 +74,7 @@ public class Rocket : MonoBehaviour
         state = State.Dying;
         audioSource.PlayOneShot(death);
         deathParticles.Play();
-        Invoke("ResetGame", 1);
+        Invoke("ResetGame", levelLoadDelay);
     }
 
     private void StartFinishSequence()
@@ -78,17 +82,19 @@ public class Rocket : MonoBehaviour
         state = State.Transending;
         audioSource.PlayOneShot(complete);
         completeParticles.Play();
-        Invoke("LoadNextLevel", 1);
+        Invoke("LoadNextLevel", levelLoadDelay);
     }
 
     private void LoadNextLevel()
     {
-        SceneManager.LoadScene(1);
+        currentLevel += 1;
+        SceneManager.LoadScene(currentLevel - 1);
     }
 
     private void ResetGame()
     {
-        SceneManager.LoadScene(0);
+        currentLevel = 1;
+        SceneManager.LoadScene(currentLevel - 1);
     }
 
     private void Thruster()
