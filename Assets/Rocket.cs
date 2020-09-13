@@ -29,8 +29,6 @@ public class Rocket : MonoBehaviour
     [SerializeField] bool autoThrustOnStart = true;
     [SerializeField] float autoThrustPower = 500;
 
-    public static int currentLevel = 1;
-
     Rigidbody rigidBody;
     AudioSource audioSource;
 
@@ -42,6 +40,8 @@ public class Rocket : MonoBehaviour
 
     Vector3 thrustingPosition;
     // Use this for initialization
+
+    private bool collisionDisabled;
 
     private bool _autoThrust;
     public bool autoThrust
@@ -77,20 +77,32 @@ public class Rocket : MonoBehaviour
         }
 
         foreach (var l in lights) l.enabled = lightsOn;
+        if (Input.GetKeyUp(KeyCode.F)) lightsOn = !lightsOn;
+        if (Input.GetKeyUp(KeyCode.T)) autoThrust = !autoThrust;
 
-        if (Input.GetKeyUp(KeyCode.F))
+        if (Debug.isDebugBuild)
         {
-            lightsOn = !lightsOn;
+            ResponseToDebugKeys();
+        }
+    }
+
+    private void ResponseToDebugKeys()
+    {
+        if (Input.GetKeyUp(KeyCode.L))
+        {
+            LoadNextLevel();
         }
 
-        if (Input.GetKeyUp(KeyCode.T))
+        if (Input.GetKeyUp(KeyCode.C))
         {
-            autoThrust = !autoThrust;
+            collisionDisabled = !collisionDisabled;
         }
     }
 
     void OnCollisionEnter(Collision collision)
     {
+        if (collisionDisabled) return;
+
         if (state != State.Alive) return;
 
         switch (collision.gameObject.tag)
@@ -133,16 +145,15 @@ public class Rocket : MonoBehaviour
 
     private void LoadNextLevel()
     {
-        currentLevel += 1;
-        if (currentLevel > SceneManager.sceneCountInBuildSettings) currentLevel = 1;
+        var nextLevel = SceneManager.GetActiveScene().buildIndex + 1;
+        if (nextLevel >= SceneManager.sceneCountInBuildSettings) nextLevel = 0;
 
-        SceneManager.LoadScene(currentLevel - 1);
+        SceneManager.LoadScene(nextLevel);
     }
 
     private void ResetGame()
     {
-        currentLevel = 1;
-        SceneManager.LoadScene(currentLevel - 1);
+        SceneManager.LoadScene(0);
     }
 
     private void Thruster()

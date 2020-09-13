@@ -249,7 +249,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4451632754726012}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!4 &4064711818211720
 Transform:
@@ -262,7 +262,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4451632754726012}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!4 &4117136530423094
 Transform:
@@ -314,7 +314,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4451632754726012}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!4 &4391823125357972
 Transform:
@@ -349,7 +349,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1243438822853674}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.093402, y: 4.1500006, z: -0.2685814}
+  m_LocalPosition: {x: -11.9934025, y: 6.79, z: -0.2685814}
   m_LocalScale: {x: 1, y: 0.5, z: 1}
   m_Children:
   - {fileID: 4880947667556076}
@@ -360,10 +360,10 @@ Transform:
   - {fileID: 4153951191703030}
   - {fileID: 4139003877392954}
   - {fileID: 4798241081299480}
-  - {fileID: 4808952083863638}
   - {fileID: 4259338364474510}
   - {fileID: 4064711818211720}
   - {fileID: 4060088367632892}
+  - {fileID: 4808952083863638}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -400,11 +400,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1029822547393652}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -1.1, z: 0}
+  m_LocalPosition: {x: -0.19, y: -1.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4451632754726012}
-  m_RootOrder: 8
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!4 &4880947667556076
 Transform:
@@ -932,8 +932,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c08f70bba3904f54c9747fb6f889c1e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotationSpeed: 400
-  ThrustSpeed: 2000
+  RotationSpeed: 200
+  ThrustPower: 2000
   mainThrust: {fileID: 8300000, guid: 575762ffe1d9b0d4e9e5a486bf0d97eb, type: 3}
   death: {fileID: 8300000, guid: 567e361cf586fcf46a4cbb068d75d71e, type: 3}
   complete: {fileID: 8300000, guid: e785d8cca0b708c40ad90381f44d9dba, type: 3}
@@ -942,6 +942,8 @@ MonoBehaviour:
   completeParticles: {fileID: 198555943363875274}
   levelLoadDelay: 2
   lightsOn: 0
+  autoThrustOnStart: 1
+  autoThrustPower: 500
 --- !u!135 &135168989581315454
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -4400,7 +4402,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -531643763
+  randomSeed: 1155376966
   InitialModule:
     serializedVersion: 3
     enabled: 1
