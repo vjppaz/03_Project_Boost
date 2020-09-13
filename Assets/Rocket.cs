@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Permissions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -24,10 +25,14 @@ public class Rocket : MonoBehaviour
 
     [SerializeField] float levelLoadDelay = 2;
 
+    [SerializeField] bool lightsOn = false;
+
     public static int currentLevel = 1;
 
     Rigidbody rigidBody;
     AudioSource audioSource;
+
+    Light[] lights;
 
     enum State { Alive, Dying, Transending }
     State state = State.Alive;
@@ -37,6 +42,7 @@ public class Rocket : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
+        lights = GetComponentsInChildren<Light>();
     }
 
     // Update is called once per frame
@@ -46,6 +52,13 @@ public class Rocket : MonoBehaviour
         {
             Thruster();
             Rotation();
+        }
+
+        foreach (var l in lights) l.enabled = lightsOn;
+
+        if (Input.GetKeyUp(KeyCode.F))
+        {
+            lightsOn = !lightsOn;
         }
     }
 
