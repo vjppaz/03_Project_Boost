@@ -13,7 +13,7 @@ public class Rocket : MonoBehaviour
     float RotationSpeed = 100;
 
     [SerializeField]
-    float ThrustSpeed = 10000;
+    float ThrustPower = 2000;
 
     [SerializeField] AudioClip mainThrust;
     [SerializeField] AudioClip death;
@@ -26,6 +26,8 @@ public class Rocket : MonoBehaviour
     [SerializeField] float levelLoadDelay = 2;
 
     [SerializeField] bool lightsOn = false;
+    [SerializeField] bool autoThrustOnStart = true;
+    [SerializeField] float autoThrustPower = 500;
 
     public static int currentLevel = 1;
 
@@ -37,9 +39,29 @@ public class Rocket : MonoBehaviour
     enum State { Alive, Dying, Transending }
     State state = State.Alive;
 
+
+    Vector3 thrustingPosition;
     // Use this for initialization
+
+    private bool _autoThrust;
+    public bool autoThrust
+    {
+        get
+        {
+            return _autoThrust;
+        }
+        set
+        {
+            thrustingPosition = transform.position;
+            _autoThrust = value;
+        }
+    }
+
     void Start()
     {
+        autoThrust = autoThrustOnStart;
+        thrustingPosition = gameObject.transform.position;
+
         rigidBody = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
         lights = GetComponentsInChildren<Light>();
@@ -60,6 +82,11 @@ public class Rocket : MonoBehaviour
         {
             lightsOn = !lightsOn;
         }
+
+        if (Input.GetKeyUp(KeyCode.T))
+        {
+            autoThrust = !autoThrust;
+        }
     }
 
     void OnCollisionEnter(Collision collision)
@@ -75,6 +102,12 @@ public class Rocket : MonoBehaviour
                 StartFinishSequence();
                 break;
             case "Friendly":
+                break;
+            case "Fuel":
+                ThrustPower += 100;
+                break;
+            case "DarkFuel":
+                ThrustPower -= 100;
                 break;
             default:
                 StartDeathSequence();
@@ -101,6 +134,8 @@ public class Rocket : MonoBehaviour
     private void LoadNextLevel()
     {
         currentLevel += 1;
+        if (currentLevel > SceneManager.sceneCountInBuildSettings) currentLevel = 1;
+
         SceneManager.LoadScene(currentLevel - 1);
     }
 
@@ -112,18 +147,30 @@ public class Rocket : MonoBehaviour
 
     private void Thruster()
     {
-        var speed = ThrustSpeed * Time.deltaTime;
+        var speed = ThrustPower * Time.deltaTime;
         if (Input.GetKey(KeyCode.Space))
         {
-            rigidBody.AddRelativeForce(Vector3.up * speed);
-            if (!audioSource.isPlaying) audioSource.PlayOneShot(mainThrust);
-            mainThrustParticles.Play();
+            autoThrust = false;
+            Thurst(speed);
         }
         else
         {
             audioSource.Stop();
             mainThrustParticles.Stop();
         }
+
+        if (autoThrust)
+        {
+            Thurst(autoThrustPower * Time.deltaTime);
+            //transform.position = thrustingPosition;
+        }
+    }
+
+    private void Thurst(float power)
+    {
+        rigidBody.AddRelativeForce(Vector3.up * power);
+        if (!audioSource.isPlaying) audioSource.PlayOneShot(mainThrust);
+        mainThrustParticles.Play();
     }
 
     private void Rotation()

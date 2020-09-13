@@ -349,7 +349,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1243438822853674}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15.633402, y: 5.8, z: -0.2685814}
+  m_LocalPosition: {x: -10.093402, y: 4.1500006, z: -0.2685814}
   m_LocalScale: {x: 1, y: 0.5, z: 1}
   m_Children:
   - {fileID: 4880947667556076}
@@ -932,8 +932,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c08f70bba3904f54c9747fb6f889c1e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotationSpeed: 75
-  ThrustSpeed: 1000
+  RotationSpeed: 400
+  ThrustSpeed: 2000
   mainThrust: {fileID: 8300000, guid: 575762ffe1d9b0d4e9e5a486bf0d97eb, type: 3}
   death: {fileID: 8300000, guid: 567e361cf586fcf46a4cbb068d75d71e, type: 3}
   complete: {fileID: 8300000, guid: e785d8cca0b708c40ad90381f44d9dba, type: 3}
